@@ -10,6 +10,12 @@ def subtract(a, b):
 def multiply(a,b):
     return a * b 
 
+# Member 4: Division
+def divide(a, b):
+    if b == 0:
+        return "Error: Cannot divide by zero"
+    return a / b
+
 
 def main():
     while True:
@@ -33,5 +39,8 @@ def main():
             print("Result:", subtract(a, b))
         if choice == "3":
             print("Result:", multiply(a,b))
+        if choice == "4":
+            print("Result:", divide(a, b))
+        
 
 main()
