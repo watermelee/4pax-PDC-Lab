@@ -42,3 +42,10 @@ if __name__ == "__main__":
 
     with ProcessPoolExecutor() as executor:
         results = executor.map(compute_payroll, employees)
+    
+    for result in results:
+        print(f"Employee: {result['name']}")
+        print(f"  Salary: {result['salary']:.2f}")
+        print(f"  Total Deduction: {result['total_deduction']:.2f}")
+        print(f"  Net Salary: {result['net_salary']:.2f}")
+        print(f"  Process ID: {result['process_id']}\n")
