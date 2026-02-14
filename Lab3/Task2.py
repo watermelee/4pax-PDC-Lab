@@ -35,3 +35,10 @@ def compute_payroll(employee):
         "net_salary": net_salary,
         "process_id": os.getpid()
     }
+
+
+if __name__ == "__main__":
+    print("=== Data Parallelism Payroll System ===\n")
+
+    with ProcessPoolExecutor() as executor:
+        results = executor.map(compute_payroll, employees)
