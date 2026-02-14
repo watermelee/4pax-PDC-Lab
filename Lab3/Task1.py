@@ -8,6 +8,11 @@ def sss(s):
     print(f"[{threading.current_thread().name}] SSS Deduction: {amount:.2f}")
     return amount
 
+def philhealth(s):
+    amount = s * 0.035  # 3.5% of salary
+    print(f"[{threading.current_thread().name}] PhilHealth Deduction: {amount:.2f}")
+    return amount
+
 print("=== Concurrent Payroll Deduction Processing ===")
 print(f"Employee Salary: {salary:.2f}\n")
 
@@ -15,7 +20,7 @@ with ThreadPoolExecutor(max_workers=4) as executor:
 
     futures = [
         executor.submit(sss, salary),
-        # executor.submit(philhealth, salary),
+        executor.submit(philhealth, salary),
         # executor.submit(pagibig, salary),
         # executor.submit(tax, salary)
     ]
