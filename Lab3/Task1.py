@@ -18,6 +18,11 @@ def pagibig(s):
     print(f"[{threading.current_thread().name}] Pag-IBIG Deduction: {amount:.2f}")
     return amount
 
+def tax(s):
+    amount = s * 0.15  # 15% of salary
+    print(f"[{threading.current_thread().name}] Withholding Tax Deduction: {amount:.2f}")
+    return amount
+
 print("=== Concurrent Payroll Deduction Processing ===")
 print(f"Employee Salary: {salary:.2f}\n")
 
@@ -27,7 +32,7 @@ with ThreadPoolExecutor(max_workers=4) as executor:
         executor.submit(sss, salary),
         executor.submit(philhealth, salary),
         executor.submit(pagibig, salary),
-        # executor.submit(tax, salary)
+        executor.submit(tax, salary)
     ]
 
 
