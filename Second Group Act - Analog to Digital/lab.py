@@ -14,3 +14,12 @@ def run_sequential(students):
 
     end = time.time()
     return end - start
+
+def run_parallel(students):
+    start = time.time()
+
+    with ProcessPoolExecutor() as executor:
+        list(executor.map(grade, students))
+
+    end = time.time()
+    return end - start
