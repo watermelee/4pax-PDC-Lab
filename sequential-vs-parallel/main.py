@@ -73,7 +73,48 @@ def parallel_sort(data):
    return result
 
 
+# ─────────────────────────────────────────
+#  SEQUENTIAL SEARCH  (Linear Search)
+# ─────────────────────────────────────────
 
+def sequential_search(data, target):
+   for i in range(len(data)):
+       if data[i] == target:
+           return i
+   return -1
+
+
+# ─────────────────────────────────────────
+#  PARALLEL SEARCH
+# ─────────────────────────────────────────
+
+def search_worker(sub_data, target, q, offset):
+   for i in range(len(sub_data)):
+       if sub_data[i] == target:
+           q.put(offset + i)
+           return
+   q.put(None)
+
+def parallel_search(data, target):
+   chunk_size = len(data) // 4
+   chunks = []
+   for i in range(0, len(data), chunk_size):
+       chunks.append((data[i:i + chunk_size], i))
+
+   q = multiprocessing.Queue()
+   processes = []
+   for chunk, offset in chunks:
+       p = multiprocessing.Process(target=search_worker, args=(chunk, target, q, offset))
+       processes.append(p)
+       p.start()
+
+   results = [q.get() for _ in processes]
+
+   for p in processes:
+       p.join()
+
+   valid = [r for r in results if r is not None]
+   return min(valid) if valid else -1
 
 
 
