@@ -44,7 +44,33 @@ def sequential_sort(data):
     right = sequential_sort(data[mid:])
     return merge(left, right)
 
+# ─────────────────────────────────────────
+#  PARALLEL SORT
+# ─────────────────────────────────────────
 
+def sort_worker(chunk, q):
+   q.put(sequential_sort(chunk))
+
+def parallel_sort(data):
+   chunk_size = len(data) // 4
+   chunks = [data[i:i + chunk_size] for i in range(0, len(data), chunk_size)]
+
+   q = multiprocessing.Queue()
+   processes = []
+   for chunk in chunks:
+       p = multiprocessing.Process(target=sort_worker, args=(chunk, q))
+       processes.append(p)
+       p.start()
+
+   sorted_chunks = [q.get() for _ in processes]
+
+   for p in processes:
+       p.join()
+
+   result = sorted_chunks[0]
+   for chunk in sorted_chunks[1:]:
+       result = merge(result, chunk)
+   return result
 
 
 
